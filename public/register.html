@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | College Notes</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #dbeafe, #eef2ff, #f8fafc);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle1 {
+            width: 300px;
+            height: 300px;
+            background: #93c5fd;
+            top: -100px;
+            left: -100px;
+        }
+
+        .circle2 {
+            width: 250px;
+            height: 250px;
+            background: #c4b5fd;
+            bottom: -80px;
+            right: -60px;
+            animation-delay: 2s;
+        }
+
+        .circle3 {
+            width: 150px;
+            height: 150px;
+            background: #a5f3fc;
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* Main container */
+
+        .register-container {
+            width: 900px;
+            max-width: 92%;
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 2;
+            animation: appear 0.8s ease;
+        }
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Left section */
+
+        .left-section {
+            background: linear-gradient(145deg, #2563eb, #4f46e5);
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-section::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 40px solid rgba(255, 255, 255, 0.08);
+            right: -100px;
+            top: -80px;
+        }
+
+        .left-section::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 30px solid rgba(255, 255, 255, 0.08);
+            left: -80px;
+            bottom: -70px;
+        }
+
+        .book-icon {
+            font-size: 75px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .left-section h1 {
+            font-size: 40px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .left-section p {
+            font-size: 17px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* Right section */
+
+        .right-section {
+            padding: 45px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-section h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #172033;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 13px 45px 13px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Password */
+
+        .show-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        /* Register button */
+
+        .register-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .register-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Message */
+
+        #message {
+            min-height: 22px;
+            margin-top: 13px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 18px;
+            color: #64748b;
+        }
+
+        .login-text a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+        .home-link {
+            text-align: center;
+            margin-top: 13px;
+        }
+
+        .home-link a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .home-link a:hover {
+            color: #2563eb;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 750px) {
+
+            .register-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .left-section {
+                padding: 35px;
+                text-align: center;
+            }
+
+            .left-section h1 {
+                font-size: 32px;
+            }
+
+            .book-icon {
+                font-size: 55px;
+            }
+
+            .right-section {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .register-container {
+                max-width: 94%;
+                border-radius: 18px;
+            }
+
+            .left-section {
+                padding: 30px 20px;
+            }
+
+            .right-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Animated Background -->
+
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+
+
+    <!-- Register Container -->
+
+    <div class="register-container">
+
+        <!-- Left -->
+
+        <div class="left-section">
+
+            <div class="book-icon">
+                📚
+            </div>
+
+            <div class="logo">
+                College Notes
+            </div>
+
+            <h1>
+                Start Your Journey!
+            </h1>
+
+            <p>
+                Create your student account and get
+                easy access to college notes,
+                study materials and important PDFs.
+            </p>
+
+        </div>
+
+
+        <!-- Right -->
+
+        <div class="right-section">
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p class="subtitle">
+                Register as a student to continue.
+            </p>
+
+
+            <form id="registerForm">
+
+                <!-- Name -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <div class="input-box">
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+
+                        <span class="input-icon">
+                            👤
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-box">
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                        <span class="input-icon">
+                            ✉️
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Minimum 6 characters"
+                            required
+                            minlength="6"
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            id="showPassword">
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Register -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                    id="registerButton">
+
+                    Create Account
+
+                </button>
+
+            </form>
+
+
+            <p id="message"></p>
+
+
+            <p class="login-text">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </p>
+
+
+            <div class="home-link">
+
+                <a href="index.html">
+                    ← Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==============================
+        // REGISTER
+        // ==============================
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        registerForm.addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+                const name =
+                    document.getElementById("name")
+                        .value.trim();
+
+                const email =
+                    document.getElementById("email")
+                        .value.trim();
+
+                const password =
+                    document.getElementById("password")
+                        .value;
+
+                const message =
+                    document.getElementById("message");
+
+                const registerButton =
+                    document.getElementById(
+                        "registerButton"
+                    );
+
+
+                message.textContent = "";
+
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    "Creating Account...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/auth/register",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    name: name,
+                                    email: email,
+                                    password: password
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (data.success) {
+
+                        message.style.color =
+                            "#16a34a";
+
+                        message.textContent =
+                            "Registration successful!";
+
+
+                        registerForm.reset();
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "login.html";
+
+                            },
+                            1000
+                        );
+
+
+                    } else {
+
+                        message.style.color =
+                            "#dc2626";
+
+                        message.textContent =
+                            data.message;
+
+                        registerButton.disabled =
+                            false;
+
+                        registerButton.textContent =
+                            "Create Account";
+                    }
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    message.style.color =
+                        "#dc2626";
+
+                    message.textContent =
+                        "Something went wrong. Please try again.";
+
+                    registerButton.disabled =
+                        false;
+
+                    registerButton.textContent =
+                        "Create Account";
+                }
+
+            }
+        );
+
+
+        // ==============================
+        // SHOW / HIDE PASSWORD
+        // ==============================
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const showPassword =
+            document.getElementById("showPassword");
+
+
+        showPassword.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    passwordInput.type ===
+                    "password"
+                ) {
+
+                    passwordInput.type =
+                        "text";
+
+                    showPassword.textContent =
+                        "🙈";
+
+                } else {
+
+                    passwordInput.type =
+                        "password";
+
+                    showPassword.textContent =
+                        "👁️";
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

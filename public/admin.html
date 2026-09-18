@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | College Notes</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #f5f7ff;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 72px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            color: white;
+            font-size: 20px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: var(--bg);
+            color: var(--text);
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .theme-btn:hover {
+            transform: rotate(20deg) scale(1.05);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 6px 12px 6px 7px;
+
+            border: 1px solid var(--border);
+            border-radius: 30px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            color: white;
+            font-weight: 800;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .logout-btn {
+            border: none;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            background: #fee2e2;
+            color: #dc2626;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #fecaca;
+            transform: translateY(-2px);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            width: 88%;
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 45px 0 60px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header .tag {
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+
+            font-size: 12px;
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-size: clamp(30px, 5vw, 44px);
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 span {
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            box-shadow: var(--shadow);
+
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(99, 102, 241, 0.1);
+
+            font-size: 23px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* ================= UPLOAD ================= */
+
+        .upload-section {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            margin-bottom: 22px;
+        }
+
+        .section-title h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .section-title p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .upload-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            background: var(--bg);
+            color: var(--text);
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 95px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        .file-box {
+            border: 2px dashed var(--border);
+
+            border-radius: 12px;
+
+            padding: 16px;
+
+            background: var(--bg);
+
+            transition: 0.3s;
+        }
+
+        .file-box:hover {
+            border-color: var(--primary);
+        }
+
+        .file-box input {
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+
+        .upload-action {
+            grid-column: 1 / -1;
+
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin-top: 5px;
+        }
+
+        .upload-btn {
+            border: none;
+
+            padding: 13px 22px;
+
+            border-radius: 11px;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            color: white;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        .upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #message {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        /* ================= NOTES HEADER ================= */
+
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .notes-title h2 {
+            font-size: 24px;
+        }
+
+        .notes-title p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 280px;
+        }
+
+        .search-box span {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--muted);
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 12px 14px 12px 40px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            background: var(--card);
+            color: var(--text);
+
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+
+        /* ================= NOTES GRID ================= */
+
+        .notes-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(300px, 1fr));
+
+            gap: 20px;
+        }
+
+        .note-card {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 19px;
+
+            padding: 22px;
+
+            box-shadow: var(--shadow);
+
+            transition: 0.3s;
+
+            animation: cardShow 0.45s ease;
+        }
+
+        @keyframes cardShow {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .note-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .note-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 16px;
+        }
+
+        .pdf-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #fee2e2;
+            color: #dc2626;
+
+            font-size: 22px;
+        }
+
+        .subject-tag {
+            padding: 6px 9px;
+
+            border-radius: 20px;
+
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .note-card h3 {
+            font-size: 18px;
+
+            line-height: 1.4;
+
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            min-height: 42px;
+
+            margin-bottom: 18px;
+        }
+
+        .note-footer {
+            border-top: 1px solid var(--border);
+
+            padding-top: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .date {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .download-btn,
+        .delete-btn {
+            border: none;
+
+            text-decoration: none;
+
+            padding: 8px 11px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .download-btn {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .download-btn:hover,
+        .delete-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 60px 20px;
+
+            background: var(--card);
+
+            border: 1px dashed var(--border);
+
+            border-radius: 20px;
+
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+
+            padding: 60px;
+
+            color: var(--muted);
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+
+            border: 4px solid var(--border);
+
+            border-top-color: var(--primary);
+
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .main {
+                width: 92%;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .upload-action {
+                grid-column: auto;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .upload-btn {
+                width: 100%;
+            }
+
+            .notes-header {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .logo-text {
+                display: none;
+            }
+
+            .logout-btn {
+                padding: 9px 11px;
+                font-size: 12px;
+            }
+
+            .upload-section {
+                padding: 20px;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                📚
+            </div>
+
+            <span class="logo-text">
+                College Notes
+            </span>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                title="Toggle theme">
+                🌙
+            </button>
+
+
+            <div class="admin-profile">
+
+                <div
+                    class="avatar"
+                    id="avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+
+                    <strong id="adminName">
+                        Admin
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-btn"
+                id="logoutBtn">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <section class="page-header">
+
+            <span class="tag">
+                🛡️ ADMIN PANEL
+            </span>
+
+            <h1>
+                Manage Your
+                <span>Notes</span>
+            </h1>
+
+            <p>
+                Upload, manage and organize college
+                study materials from one place.
+            </p>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <div
+                        class="stat-number"
+                        id="totalNotes">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Total Notes
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📖
+                </div>
+
+                <div>
+
+                    <div
+                        class="stat-number"
+                        id="totalSubjects">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Subjects
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎓
+                </div>
+
+                <div>
+
+                    <div class="stat-number">
+                        Admin
+                    </div>
+
+                    <div class="stat-label">
+                        Dashboard Access
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= UPLOAD ================= -->
+
+        <section class="upload-section">
+
+            <div class="section-title">
+
+                <h2>
+                    📤 Upload New Note
+                </h2>
+
+                <p>
+                    Add a PDF note for students.
+                </p>
+
+            </div>
+
+
+            <form id="uploadForm">
+
+                <div class="upload-grid">
+
+
+                    <!-- TITLE -->
+
+                    <div class="form-group">
+
+                        <label for="title">
+                            Note Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="e.g. Software Engineering Unit 1"
+                            required>
+
+                    </div>
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="form-group">
+
+                        <label for="subject">
+                            Subject
+                        </label>
+
+                        <input
+                            type="text"
+                            id="subject"
+                            placeholder="e.g. Software Engineering"
+                            required>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="Enter a short description of this note..."></textarea>
+
+                    </div>
+
+
+                    <!-- PDF -->
+
+                    <div class="form-group full">
+
+                        <label for="pdf">
+                            Select PDF
+                        </label>
+
+                        <div class="file-box">
+
+                            <input
+                                type="file"
+                                id="pdf"
+                                accept=".pdf,application/pdf"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION -->
+
+                    <div class="upload-action">
+
+                        <button
+                            type="submit"
+                            class="upload-btn"
+                            id="uploadBtn">
+
+                            📤 Upload Note
+
+                        </button>
+
+
+                        <span id="message"></span>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= NOTES ================= -->
+
+        <section>
+
+            <div class="notes-header">
+
+                <div class="notes-title">
+
+                    <h2>
+                        📚 Uploaded Notes
+                    </h2>
+
+                    <p>
+                        Manage all notes available to students.
+                    </p>
+
+                </div>
+
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search notes..."
+                        oninput="filterNotes()">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="loading"
+                id="loading">
+
+                <div class="spinner"></div>
+
+                Loading notes...
+
+            </div>
+
+
+            <div
+                class="notes-grid"
+                id="notesContainer">
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 College Notes |
+        Admin Dashboard
+
+    </footer>
+
+
+    <script>
+
+        let allNotes = [];
+
+
+        // ================= CHECK ADMIN =================
+
+        async function checkAdmin() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/me"
+                    );
+
+
+                if (!response.ok) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    data.user.role !== "admin"
+                ) {
+
+                    alert(
+                        "Admin access required"
+                    );
+
+                    window.location.href =
+                        "notes.html";
+
+                    return;
+
+                }
+
+
+                document.getElementById(
+                    "adminName"
+                ).textContent =
+                    data.user.name;
+
+
+                document.getElementById(
+                    "avatar"
+                ).textContent =
+                    data.user.name
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+
+
+        // ================= UPLOAD =================
+
+        document.getElementById(
+            "uploadForm"
+        ).addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+
+                const title =
+                    document.getElementById(
+                        "title"
+                    ).value.trim();
+
+
+                const subject =
+                    document.getElementById(
+                        "subject"
+                    ).value.trim();
+
+
+                const description =
+                    document.getElementById(
+                        "description"
+                    ).value.trim();
+
+
+                const pdf =
+                    document.getElementById(
+                        "pdf"
+                    ).files[0];
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                const uploadBtn =
+                    document.getElementById(
+                        "uploadBtn"
+                    );
+
+
+                message.textContent =
+                    "";
+
+                message.className =
+                    "";
+
+
+                if (!pdf) {
+
+                    message.textContent =
+                        "Please select a PDF.";
+
+                    message.className =
+                        "error";
+
+                    return;
+
+                }
+
+
+                if (
+                    pdf.type !==
+                    "application/pdf"
+                ) {
+
+                    message.textContent =
+                        "Only PDF files are allowed.";
+
+                    message.className =
+                        "error";
+
+                    return;
+
+                }
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "title",
+                    title
+                );
+
+                formData.append(
+                    "subject",
+                    subject
+                );
+
+                formData.append(
+                    "description",
+                    description
+                );
+
+                formData.append(
+                    "pdf",
+                    pdf
+                );
+
+
+                uploadBtn.disabled =
+                    true;
+
+                uploadBtn.textContent =
+                    "⏳ Uploading...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/notes/upload",
+                            {
+                                method: "POST",
+                                body: formData
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    message.textContent =
+                        data.message;
+
+
+                    if (data.success) {
+
+                        message.className =
+                            "success";
+
+
+                        document.getElementById(
+                            "uploadForm"
+                        ).reset();
+
+
+                        await loadNotes();
+
+                    }
+                    else {
+
+                        message.className =
+                            "error";
+
+                    }
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                    message.textContent =
+                        "Upload failed. Please try again.";
+
+                    message.className =
+                        "error";
+
+                }
+                finally {
+
+                    uploadBtn.disabled =
+                        false;
+
+                    uploadBtn.textContent =
+                        "📤 Upload Note";
+
+                }
+
+            }
+        );
+
+
+        // ================= LOAD NOTES =================
+
+        async function loadNotes() {
+
+            const loading =
+                document.getElementById(
+                    "loading"
+                );
+
+
+            const container =
+                document.getElementById(
+                    "notesContainer"
+                );
+
+
+            loading.style.display =
+                "block";
+
+
+            container.innerHTML =
+                "";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/notes"
+                    );
+
+
+                if (!response.ok) {
+
+                    if (
+                        response.status ===
+                        401
+                    ) {
+
+                        window.location.href =
+                            "login.html";
+
+                        return;
+
+                    }
+
+                    throw new Error(
+                        "Unable to load notes"
+                    );
+
+                }
+
+
+                allNotes =
+                    await response.json();
+
+
+                updateStats();
+
+                displayNotes(
+                    allNotes
+                );
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h3>
+                            Unable to load notes
+                        </h3>
+
+                        <p>
+                            Please refresh the page.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+            finally {
+
+                loading.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        // ================= STATS =================
+
+        function updateStats() {
+
+            document.getElementById(
+                "totalNotes"
+            ).textContent =
+                allNotes.length;
+
+
+            const subjects =
+                new Set(
+                    allNotes.map(
+                        note =>
+                            note.subject
+                    )
+                );
+
+
+            document.getElementById(
+                "totalSubjects"
+            ).textContent =
+                subjects.size;
+
+        }
+
+
+        // ================= DISPLAY NOTES =================
+
+        function displayNotes(notes) {
+
+            const container =
+                document.getElementById(
+                    "notesContainer"
+                );
+
+
+            container.innerHTML =
+                "";
+
+
+            if (notes.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            📭
+                        </div>
+
+                        <h3>
+                            No notes found
+                        </h3>
+
+                        <p>
+                            Upload a note or try another search.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            notes.forEach(note => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "note-card";
+
+
+                card.innerHTML = `
+
+                    <div class="note-top">
+
+                        <div class="pdf-icon">
+                            📄
+                        </div>
+
+                        <span class="subject-tag">
+                            ${escapeHTML(
+                                note.subject
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            note.title
+                        )}
+                    </h3>
+
+
+                    <p class="description">
+
+                        ${
+                            note.description
+                                ? escapeHTML(
+                                    note.description
+                                  )
+                                : "No description available."
+                        }
+
+                    </p>
+
+
+                    <div class="note-footer">
+
+                        <span class="date">
+
+                            📅
+                            ${formatDate(
+                                note.created_at
+                            )}
+
+                        </span>
+
+
+                        <div class="actions">
+
+                            <a
+                                href="/api/notes/download/${note.id}"
+                                target="_blank"
+                                class="download-btn">
+
+                                📥 PDF
+
+                            </a>
+
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteNote(${note.id})">
+
+                                🗑️ Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            });
+
+        }
+
+
+        // ================= SEARCH =================
+
+        function filterNotes() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filtered =
+                allNotes.filter(
+                    note => {
+
+                        return (
+
+                            note.title
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                )
+
+                            ||
+
+                            note.subject
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                )
+
+                            ||
+
+                            (
+                                note.description ||
+                                ""
+                            )
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                )
+
+                        );
+
+                    }
+                );
+
+
+            displayNotes(
+                filtered
+            );
+
+        }
+
+
+        // ================= DELETE =================
+
+        async function deleteNote(id) {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete this note?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/api/notes/${id}`,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.success) {
+
+                    await loadNotes();
+
+                }
+                else {
+
+                    alert(
+                        data.message
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Delete failed. Please try again."
+                );
+
+            }
+
+        }
+
+
+        // ================= LOGOUT =================
+
+        document.getElementById(
+            "logoutBtn"
+        ).addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    await fetch(
+                        "/api/auth/logout",
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                }
+
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+
+        // ================= DATE =================
+
+        function formatDate(
+            dateString
+        ) {
+
+            if (!dateString) {
+                return "Recently";
+            }
+
+
+            const date =
+                new Date(
+                    dateString.replace(
+                        " ",
+                        "T"
+                    ) + "Z"
+                );
+
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "Recently";
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // ================= SECURITY =================
+
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ================= DARK MODE =================
+
+        const themeBtn =
+            document.getElementById(
+                "themeBtn"
+            );
+
+
+        const savedTheme =
+            localStorage.getItem(
+                "adminTheme"
+            );
+
+
+        if (
+            savedTheme ===
+            "dark"
+        ) {
+
+            document.body.classList.add(
+                "dark"
+            );
+
+            themeBtn.textContent =
+                "☀️";
+
+        }
+
+
+        themeBtn.addEventListener(
+            "click",
+            function () {
+
+                document.body.classList.toggle(
+                    "dark"
+                );
+
+
+                const dark =
+                    document.body.classList.contains(
+                        "dark"
+                    );
+
+
+                themeBtn.textContent =
+                    dark
+                        ? "☀️"
+                        : "🌙";
+
+
+                localStorage.setItem(
+                    "adminTheme",
+                    dark
+                        ? "dark"
+                        : "light"
+                );
+
+            }
+        );
+
+
+        // ================= START =================
+
+        checkAdmin();
+
+        loadNotes();
+
+    </script>
+
+</body>
+
+</html>
