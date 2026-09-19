@@ -497,6 +497,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
+            gap: 10px;
         }
 
         .date {
@@ -504,6 +506,15 @@
             font-size: 11px;
         }
 
+        /* ================= NOTE ACTIONS ================= */
+
+        .note-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .read-btn,
         .download-btn {
             text-decoration: none;
 
@@ -511,6 +522,25 @@
 
             border-radius: 9px;
 
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .read-btn {
+            background: rgba(99, 102, 241, 0.12);
+            color: var(--primary);
+        }
+
+        .read-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.04);
+        }
+
+        .download-btn {
             background: linear-gradient(
                 135deg,
                 var(--primary),
@@ -518,11 +548,6 @@
             );
 
             color: white;
-
-            font-size: 12px;
-            font-weight: 700;
-
-            transition: 0.3s;
         }
 
         .download-btn:hover {
@@ -670,6 +695,21 @@
             .notes-grid {
                 grid-template-columns: 1fr;
             }
+
+            .note-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .note-actions {
+                width: 100%;
+            }
+
+            .read-btn,
+            .download-btn {
+                flex: 1;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -681,11 +721,15 @@
     <nav class="navbar">
 
         <div class="logo">
-            <div class="logo-icon">📚</div>
+
+            <div class="logo-icon">
+                📚
+            </div>
 
             <span class="logo-text">
                 College Notes
             </span>
+
         </div>
 
         <div class="nav-right">
@@ -699,7 +743,9 @@
 
             <div class="user-box">
 
-                <div class="avatar" id="avatar">
+                <div
+                    class="avatar"
+                    id="avatar">
                     U
                 </div>
 
@@ -768,6 +814,7 @@
             </div>
 
             <div>
+
                 <div
                     class="stat-number"
                     id="totalNotes">
@@ -777,6 +824,7 @@
                 <div class="stat-label">
                     Total Notes
                 </div>
+
             </div>
 
         </div>
@@ -789,6 +837,7 @@
             </div>
 
             <div>
+
                 <div
                     class="stat-number"
                     id="totalSubjects">
@@ -798,6 +847,7 @@
                 <div class="stat-label">
                     Subjects
                 </div>
+
             </div>
 
         </div>
@@ -958,7 +1008,8 @@
                 const data =
                     await response.json();
 
-                const user = data.user;
+                const user =
+                    data.user;
 
                 document.getElementById(
                     "userName"
@@ -1019,11 +1070,15 @@
             try {
 
                 const response =
-                    await fetch("/api/notes");
+                    await fetch(
+                        "/api/notes"
+                    );
 
                 if (!response.ok) {
 
-                    if (response.status === 401) {
+                    if (
+                        response.status === 401
+                    ) {
 
                         window.location.href =
                             "login.html";
@@ -1044,7 +1099,9 @@
 
                 createSubjectFilter();
 
-                displayNotes(allNotes);
+                displayNotes(
+                    allNotes
+                );
 
             } catch (error) {
 
@@ -1054,20 +1111,28 @@
                 );
 
                 container.innerHTML = `
+
                     <div style="
                         grid-column:1/-1;
                         text-align:center;
                         padding:50px;
                     ">
-                        <h3>⚠️ Unable to load notes</h3>
+
+                        <h3>
+                            ⚠️ Unable to load notes
+                        </h3>
 
                         <p style="
                             color:var(--muted);
                             margin-top:8px;
                         ">
+
                             Please refresh the page.
+
                         </p>
+
                     </div>
+
                 `;
 
             } finally {
@@ -1115,18 +1180,22 @@
                 );
 
             select.innerHTML = `
+
                 <option value="all">
                     All Subjects
                 </option>
+
             `;
 
             const subjects =
-                [...new Set(
-                    allNotes.map(
-                        note =>
-                            note.subject
+                [
+                    ...new Set(
+                        allNotes.map(
+                            note =>
+                                note.subject
+                        )
                     )
-                )];
+                ];
 
             subjects.sort();
 
@@ -1156,7 +1225,9 @@
 
         /* ================= DISPLAY NOTES ================= */
 
-        function displayNotes(notes) {
+        function displayNotes(
+            notes
+        ) {
 
             const container =
                 document.getElementById(
@@ -1183,7 +1254,9 @@
                 } found`;
 
 
-            if (notes.length === 0) {
+            if (
+                notes.length === 0
+            ) {
 
                 empty.style.display =
                     "block";
@@ -1196,76 +1269,94 @@
                 "none";
 
 
-            notes.forEach(note => {
+            notes.forEach(
+                note => {
 
-                const card =
-                    document.createElement(
-                        "div"
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+                    card.className =
+                        "note-card";
+
+
+                    const date =
+                        formatDate(
+                            note.created_at
+                        );
+
+
+                    card.innerHTML = `
+
+                        <div class="pdf-icon">
+                            📄
+                        </div>
+
+                        <div class="subject-tag">
+                            ${escapeHTML(
+                                note.subject
+                            )}
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(
+                                note.title
+                            )}
+                        </h3>
+
+                        <p class="description">
+
+                            ${
+                                note.description
+                                    ? escapeHTML(
+                                        note.description
+                                      )
+                                    : "No description available."
+                            }
+
+                        </p>
+
+                        <div class="note-bottom">
+
+                            <span class="date">
+                                📅 ${date}
+                            </span>
+
+                            <div class="note-actions">
+
+                                <a
+                                    class="read-btn"
+                                    href="/api/notes/download/${note.id}"
+                                    target="_blank"
+                                    rel="noopener">
+
+                                    📖 Read
+
+                                </a>
+
+                                <a
+                                    class="download-btn"
+                                    href="/api/notes/download/${note.id}"
+                                    download>
+
+                                    📥 Download
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        card
                     );
 
-                card.className =
-                    "note-card";
-
-
-                const date =
-                    formatDate(
-                        note.created_at
-                    );
-
-
-                card.innerHTML = `
-
-                    <div class="pdf-icon">
-                        📄
-                    </div>
-
-                    <div class="subject-tag">
-                        ${escapeHTML(
-                            note.subject
-                        )}
-                    </div>
-
-                    <h3>
-                        ${escapeHTML(
-                            note.title
-                        )}
-                    </h3>
-
-                    <p class="description">
-                        ${
-                            note.description
-                                ? escapeHTML(
-                                    note.description
-                                  )
-                                : "No description available."
-                        }
-                    </p>
-
-                    <div class="note-bottom">
-
-                        <span class="date">
-                            📅 ${date}
-                        </span>
-
-                        <a
-                            class="download-btn"
-                            href="/api/notes/download/${note.id}"
-                            target="_blank">
-
-                            📥 Download
-
-                        </a>
-
-                    </div>
-
-                `;
-
-
-                container.appendChild(
-                    card
-                );
-
-            });
+                }
+            );
 
         }
 
@@ -1289,44 +1380,56 @@
 
 
             const filtered =
-                allNotes.filter(note => {
+                allNotes.filter(
+                    note => {
 
-                    const matchesSearch =
-                        note.title
-                            .toLowerCase()
-                            .includes(search)
+                        const matchesSearch =
 
-                        ||
+                            note.title
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                )
 
-                        note.subject
-                            .toLowerCase()
-                            .includes(search)
+                            ||
 
-                        ||
+                            note.subject
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                )
 
-                        (
-                            note.description ||
-                            ""
-                        )
-                            .toLowerCase()
-                            .includes(search);
+                            ||
 
-
-                    const matchesSubject =
-                        subject === "all"
-                        ||
-                        note.subject === subject;
-
-
-                    return (
-                        matchesSearch &&
-                        matchesSubject
-                    );
-
-                });
+                            (
+                                note.description ||
+                                ""
+                            )
+                                .toLowerCase()
+                                .includes(
+                                    search
+                                );
 
 
-            displayNotes(filtered);
+                        const matchesSubject =
+                            subject === "all"
+                            ||
+                            note.subject ===
+                                subject;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesSubject
+                        );
+
+                    }
+                );
+
+
+            displayNotes(
+                filtered
+            );
 
         }
 
@@ -1346,7 +1449,9 @@
 
             } catch (error) {
 
-                console.error(error);
+                console.error(
+                    error
+                );
 
             }
 
@@ -1358,10 +1463,14 @@
 
         /* ================= DATE ================= */
 
-        function formatDate(dateString) {
+        function formatDate(
+            dateString
+        ) {
 
             if (!dateString) {
+
                 return "Recently";
+
             }
 
             const date =
@@ -1373,8 +1482,12 @@
                 );
 
 
-            if (isNaN(date)) {
+            if (
+                isNaN(date)
+            ) {
+
                 return "Recently";
+
             }
 
 
@@ -1392,32 +1505,41 @@
 
         /* ================= SECURITY ================= */
 
-        function escapeHTML(value) {
+        function escapeHTML(
+            value
+        ) {
 
-            if (value === null ||
-                value === undefined) {
+            if (
+                value === null ||
+                value === undefined
+            ) {
 
                 return "";
 
             }
 
             return String(value)
+
                 .replace(
                     /&/g,
                     "&amp;"
                 )
+
                 .replace(
                     /</g,
                     "&lt;"
                 )
+
                 .replace(
                     />/g,
                     "&gt;"
                 )
+
                 .replace(
                     /"/g,
                     "&quot;"
                 )
+
                 .replace(
                     /'/g,
                     "&#039;"
@@ -1440,7 +1562,9 @@
             );
 
 
-        if (savedTheme === "dark") {
+        if (
+            savedTheme === "dark"
+        ) {
 
             document.body.classList.add(
                 "dark"
