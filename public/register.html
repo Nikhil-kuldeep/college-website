@@ -25,8 +25,6 @@
             position: relative;
         }
 
-        /* Animated background */
-
         .circle {
             position: absolute;
             border-radius: 50%;
@@ -71,8 +69,6 @@
             }
         }
 
-        /* Main container */
-
         .register-container {
             width: 900px;
             max-width: 92%;
@@ -101,8 +97,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* Left section */
 
         .left-section {
             background: linear-gradient(145deg, #2563eb, #4f46e5);
@@ -160,8 +154,6 @@
             opacity: 0.9;
         }
 
-        /* Right section */
-
         .right-section {
             padding: 45px 50px;
             display: flex;
@@ -179,8 +171,6 @@
             color: #64748b;
             margin-bottom: 25px;
         }
-
-        /* Form */
 
         .form-group {
             margin-bottom: 17px;
@@ -219,8 +209,6 @@
             transform: translateY(-50%);
         }
 
-        /* Password */
-
         .show-password {
             position: absolute;
             right: 14px;
@@ -231,8 +219,6 @@
             cursor: pointer;
             font-size: 17px;
         }
-
-        /* Register button */
 
         .register-button {
             width: 100%;
@@ -257,8 +243,6 @@
             opacity: 0.7;
             cursor: not-allowed;
         }
-
-        /* Message */
 
         #message {
             min-height: 22px;
@@ -297,8 +281,6 @@
         .home-link a:hover {
             color: #2563eb;
         }
-
-        /* Mobile */
 
         @media (max-width: 750px) {
 
@@ -342,7 +324,6 @@
         }
     </style>
 </head>
-
 
 <body>
 
@@ -522,12 +503,21 @@
 
     <script>
 
-        // ==============================
+        // =====================================
+        // RENDER BACKEND API
+        // =====================================
+
+        const API_URL =
+            "https://college-website-7x2f.onrender.com";
+
+
+        // =====================================
         // REGISTER
-        // ==============================
+        // =====================================
 
         const registerForm =
             document.getElementById("registerForm");
+
 
         registerForm.addEventListener(
             "submit",
@@ -535,20 +525,25 @@
 
                 e.preventDefault();
 
+
                 const name =
                     document.getElementById("name")
                         .value.trim();
+
 
                 const email =
                     document.getElementById("email")
                         .value.trim();
 
+
                 const password =
                     document.getElementById("password")
                         .value;
 
+
                 const message =
                     document.getElementById("message");
+
 
                 const registerButton =
                     document.getElementById(
@@ -558,7 +553,9 @@
 
                 message.textContent = "";
 
+
                 registerButton.disabled = true;
+
 
                 registerButton.textContent =
                     "Creating Account...";
@@ -568,8 +565,10 @@
 
                     const response =
                         await fetch(
+                            API_URL +
                             "/api/auth/register",
                             {
+
                                 method: "POST",
 
                                 headers: {
@@ -578,10 +577,15 @@
                                 },
 
                                 body: JSON.stringify({
+
                                     name: name,
+
                                     email: email,
+
                                     password: password
+
                                 })
+
                             }
                         );
 
@@ -594,6 +598,7 @@
 
                         message.style.color =
                             "#16a34a";
+
 
                         message.textContent =
                             "Registration successful!";
@@ -618,44 +623,58 @@
                         message.style.color =
                             "#dc2626";
 
+
                         message.textContent =
-                            data.message;
+                            data.message ||
+                            "Registration failed.";
+
 
                         registerButton.disabled =
                             false;
 
+
                         registerButton.textContent =
                             "Create Account";
+
                     }
 
 
                 } catch (error) {
 
-                    console.error(error);
+                    console.error(
+                        "Registration Error:",
+                        error
+                    );
+
 
                     message.style.color =
                         "#dc2626";
 
+
                     message.textContent =
-                        "Something went wrong. Please try again.";
+                        "Unable to connect to server. Please try again.";
+
 
                     registerButton.disabled =
                         false;
 
+
                     registerButton.textContent =
                         "Create Account";
+
                 }
 
             }
         );
 
 
-        // ==============================
+        // =====================================
         // SHOW / HIDE PASSWORD
-        // ==============================
+        // =====================================
 
         const passwordInput =
             document.getElementById("password");
+
 
         const showPassword =
             document.getElementById("showPassword");
@@ -673,6 +692,7 @@
                     passwordInput.type =
                         "text";
 
+
                     showPassword.textContent =
                         "🙈";
 
@@ -681,8 +701,10 @@
                     passwordInput.type =
                         "password";
 
+
                     showPassword.textContent =
                         "👁️";
+
                 }
 
             }

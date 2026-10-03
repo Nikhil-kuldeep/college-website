@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>College Notes</title>
 
+
     <style>
+
         :root {
             --primary: #6366f1;
             --secondary: #8b5cf6;
@@ -16,11 +21,13 @@
             --border: #e5e7eb;
         }
 
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
 
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -28,6 +35,7 @@
             color: var(--text);
             min-height: 100vh;
         }
+
 
         /* NAVBAR */
 
@@ -45,11 +53,13 @@
             z-index: 100;
         }
 
+
         .logo {
             font-size: 24px;
             font-weight: 800;
             color: var(--primary);
         }
+
 
         .logout-btn {
             border: none;
@@ -66,10 +76,12 @@
             transition: 0.3s;
         }
 
+
         .logout-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
         }
+
 
         /* MAIN */
 
@@ -79,9 +91,11 @@
             margin: 40px auto;
         }
 
+
         .page-header {
             margin-bottom: 30px;
         }
+
 
         .page-header h1 {
             font-size: 34px;
@@ -89,18 +103,24 @@
             margin-bottom: 8px;
         }
 
+
         .page-header p {
             color: #6b7280;
             font-size: 15px;
         }
 
+
         /* NOTES GRID */
 
         .notes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
             gap: 22px;
         }
+
 
         .note-card {
             background: white;
@@ -112,10 +132,12 @@
             animation: fadeIn 0.5s ease;
         }
 
+
         .note-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
+
 
         .note-icon {
             width: 50px;
@@ -129,12 +151,14 @@
             margin-bottom: 15px;
         }
 
+
         .note-title {
             font-size: 19px;
             font-weight: 800;
             color: var(--dark);
             margin-bottom: 8px;
         }
+
 
         .note-subject {
             color: var(--primary);
@@ -143,6 +167,7 @@
             margin-bottom: 10px;
         }
 
+
         .note-description {
             color: #6b7280;
             font-size: 14px;
@@ -150,6 +175,7 @@
             min-height: 45px;
             margin-bottom: 18px;
         }
+
 
         /* BOTTOM */
 
@@ -162,10 +188,12 @@
             padding-top: 15px;
         }
 
+
         .date {
             color: #9ca3af;
             font-size: 12px;
         }
+
 
         /* READ BUTTON */
 
@@ -174,6 +202,7 @@
             align-items: center;
             gap: 8px;
         }
+
 
         .read-btn {
             text-decoration: none;
@@ -187,11 +216,13 @@
             color: var(--primary);
         }
 
+
         .read-btn:hover {
             background: var(--primary);
             color: white;
             transform: scale(1.04);
         }
+
 
         /* LOADING */
 
@@ -200,6 +231,7 @@
             padding: 60px 20px;
             color: #6b7280;
         }
+
 
         .spinner {
             width: 40px;
@@ -210,6 +242,7 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
         }
+
 
         /* EMPTY */
 
@@ -222,10 +255,12 @@
             color: #6b7280;
         }
 
+
         .empty-icon {
             font-size: 45px;
             margin-bottom: 15px;
         }
+
 
         /* ERROR */
 
@@ -238,15 +273,20 @@
             padding: 20px;
         }
 
+
         /* ANIMATIONS */
 
         @keyframes spin {
+
             to {
                 transform: rotate(360deg);
             }
+
         }
 
+
         @keyframes fadeIn {
+
             from {
                 opacity: 0;
                 transform: translateY(15px);
@@ -256,7 +296,9 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+
         }
+
 
         /* MOBILE */
 
@@ -266,41 +308,53 @@
                 padding: 15px 5%;
             }
 
+
             .logo {
                 font-size: 20px;
             }
+
 
             .container {
                 width: 90%;
                 margin: 30px auto;
             }
 
+
             .page-header h1 {
                 font-size: 28px;
             }
 
+
             .notes-grid {
                 grid-template-columns: 1fr;
             }
+
 
             .note-bottom {
                 align-items: flex-start;
                 flex-direction: column;
             }
 
+
             .note-actions {
                 width: 100%;
             }
+
 
             .read-btn {
                 width: 100%;
                 text-align: center;
             }
+
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
     <!-- NAVBAR -->
 
@@ -310,11 +364,17 @@
             📚 College Notes
         </div>
 
-        <button class="logout-btn" onclick="logout()">
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
             Logout
+
         </button>
 
     </nav>
+
 
 
     <!-- MAIN -->
@@ -353,47 +413,83 @@
     </main>
 
 
+
     <script>
 
-        /* LOAD NOTES */
+
+        // =========================================
+        // RENDER BACKEND API
+        // =========================================
+
+        const API_URL =
+            "https://college-website-7x2f.onrender.com";
+
+
+
+        // =========================================
+        // LOAD NOTES
+        // =========================================
 
         async function loadNotes() {
 
             const container =
-                document.getElementById("notesContainer");
+                document.getElementById(
+                    "notesContainer"
+                );
+
 
             try {
 
                 const response =
-                    await fetch("/api/notes");
+                    await fetch(
+                        API_URL + "/api/notes",
+                        {
+                            method: "GET",
+                            credentials: "include"
+                        }
+                    );
+
 
                 if (response.status === 401) {
 
-                    window.location.href = "/login.html";
+                    window.location.href =
+                        "login.html";
 
                     return;
+
                 }
+
 
                 const data =
                     await response.json();
 
+
                 if (!response.ok) {
 
                     throw new Error(
-                        data.message || "Unable to load notes"
+                        data.message ||
+                        "Unable to load notes"
                     );
 
                 }
 
-                const notes = data.notes || data;
+
+                const notes =
+                    data.notes || data;
+
 
                 displayNotes(notes);
 
             }
 
+
             catch (error) {
 
-                console.error(error);
+                console.error(
+                    "Load Notes Error:",
+                    error
+                );
+
 
                 container.innerHTML = `
 
@@ -403,7 +499,9 @@
 
                         <br><br>
 
-                        ${error.message}
+                        ${escapeHTML(
+                            error.message
+                        )}
 
                     </div>
 
@@ -414,15 +512,23 @@
         }
 
 
-        /* DISPLAY NOTES */
+
+        // =========================================
+        // DISPLAY NOTES
+        // =========================================
 
         function displayNotes(notes) {
 
             const container =
-                document.getElementById("notesContainer");
+                document.getElementById(
+                    "notesContainer"
+                );
 
 
-            if (!notes || notes.length === 0) {
+            if (
+                !notes ||
+                notes.length === 0
+            ) {
 
                 container.innerHTML = `
 
@@ -445,7 +551,9 @@
                 `;
 
                 return;
+
             }
+
 
 
             container.innerHTML = `
@@ -456,12 +564,16 @@
 
                         const date =
                             note.created_at
-                                ? new Date(note.created_at)
-                                    .toLocaleDateString("en-IN", {
+                                ? new Date(
+                                    note.created_at
+                                ).toLocaleDateString(
+                                    "en-IN",
+                                    {
                                         day: "2-digit",
                                         month: "short",
                                         year: "numeric"
-                                    })
+                                    }
+                                )
                                 : "Date not available";
 
 
@@ -475,27 +587,37 @@
 
 
                                 <div class="note-title">
-                                    ${escapeHTML(note.title)}
+                                    ${escapeHTML(
+                                        note.title
+                                    )}
                                 </div>
 
 
                                 <div class="note-subject">
-                                    ${escapeHTML(note.subject || "Study Notes")}
+                                    ${escapeHTML(
+                                        note.subject ||
+                                        "Study Notes"
+                                    )}
                                 </div>
 
 
                                 <div class="note-description">
+
                                     ${escapeHTML(
                                         note.description ||
                                         "College study notes"
                                     )}
+
                                 </div>
 
 
                                 <div class="note-bottom">
 
+
                                     <span class="date">
+
                                         📅 ${date}
+
                                     </span>
 
 
@@ -503,14 +625,17 @@
 
                                         <a
                                             class="read-btn"
-                                            href="/api/notes/download/${note.id}"
+                                            href="${API_URL}/api/notes/download/${note.id}"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
+
                                             📖 Read
+
                                         </a>
 
                                     </div>
+
 
                                 </div>
 
@@ -527,52 +652,94 @@
         }
 
 
-        /* SECURITY */
+
+        // =========================================
+        // SECURITY
+        // =========================================
 
         function escapeHTML(value) {
 
-            if (value === null || value === undefined) {
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
                 return "";
+
             }
 
+
             return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
 
-        /* LOGOUT */
+
+        // =========================================
+        // LOGOUT
+        // =========================================
 
         async function logout() {
 
             try {
 
-                await fetch("/api/auth/logout", {
-                    method: "POST"
-                });
+                await fetch(
+                    API_URL +
+                    "/api/auth/logout",
+                    {
+                        method: "POST",
+                        credentials: "include"
+                    }
+                );
 
             }
 
             catch (error) {
 
-                console.error(error);
+                console.error(
+                    "Logout Error:",
+                    error
+                );
 
             }
 
-            window.location.href = "/login.html";
+
+            window.location.href =
+                "login.html";
 
         }
 
 
-        /* START */
+
+        // =========================================
+        // START
+        // =========================================
 
         loadNotes();
 
     </script>
 
+
 </body>
+
 </html>
